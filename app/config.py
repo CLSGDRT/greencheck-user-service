@@ -5,5 +5,5 @@ load_dotenv()
 
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "default-secret")
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:////home/easyy/Developpement/Python/Greencheck/user-service/databaseuser-service.db")
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:////home/easyy/Developpement/Python/Greencheck/user-service/database/user-service.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
