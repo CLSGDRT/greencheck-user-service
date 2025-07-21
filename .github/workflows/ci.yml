@@ -19,11 +19,13 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
+          pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pytest pytest-cov
 
       - name: Run tests
         run: |
-          pip install pytest pytest-cov
+          source venv/bin/activate
           pytest --cov=. tests/
 
       - name: Build Docker image
