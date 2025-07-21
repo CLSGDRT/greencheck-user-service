@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: GreenCheck User Service
+  version: 1.0.0
+  description: API de gestion des utilisateurs (authentification, rôles, quotas)
+
+servers:
+  - url: http://localhost:5000
+    description: Serveur local
+
+paths:
+  /:
+    get:
+      summary: Test de l'API
+      responses:
+        '200':
+          description: OK
+
+  /users/:
+    get:
+      summary: Lister tous les utilisateurs
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste des utilisateurs
+    post:
+      summary: Créer un utilisateur
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+                quota:
+                  type: integer
+      responses:
+        '201':
+          description: Utilisateur créé
+
+  /users/{user_id}:
+    patch:
+      summary: Modifier un utilisateur
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                role:
+                  type: string
+                quota:
+                  type: integer
+      responses:
+        '200':
+          description: Utilisateur mis à jour
+
+  /profile:
+    get:
+      summary: Infos de l'utilisateur connecté
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Profil de l'utilisateur
+
+  /login/google:
+    get:
+      summary: Démarrer le login OAuth2 avec Google
+      responses:
+        '302':
+          description: Redirection vers Google
+
+  /auth/callback:
+    get:
+      summary: Callback OAuth2 de Google
+      responses:
+        '200':
+          description: Connexion réussie et retour du JWT
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

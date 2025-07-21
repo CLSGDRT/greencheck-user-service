@@ -10,4 +10,8 @@ COPY . .
 ENV FLASK_APP=app/api/app.py
 ENV PYTHONUNBUFFERED=1
 
-CMD ["python", "app/api/app.py"]
+EXPOSE 5000
+
+# On lance le script d'init puis les migrations Alembic, puis l'app Flask
+CMD ["sh", "-c", "python init_superuser.py && flask db upgrade && python app/api/app.py"]
+
