@@ -6,7 +6,7 @@ from flask_jwt_extended import (
 )
 from app.models.db import db
 from app.models.user import User
-from app.config import get_config  # Changement ici
+from app.config import get_config 
 from functools import wraps
 from dotenv import load_dotenv
 import os
@@ -14,7 +14,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-app.config.from_object(get_config())  # Changement ici
+app.config.from_object(get_config()) 
 
 # Initialisation de la base de données (SQLAlchemy)
 db.init_app(app)
@@ -213,4 +213,4 @@ def index():
     return "Hello from user-service!"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5001)
