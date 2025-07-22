@@ -6,6 +6,7 @@ from flask_jwt_extended import (
 )
 from app.models.db import db
 from app.models.user import User
+from app.config import get_config  # Changement ici
 from functools import wraps
 from dotenv import load_dotenv
 import os
@@ -13,7 +14,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-app.config.from_object("app.config.Config")
+app.config.from_object(get_config())  # Changement ici
 
 # Initialisation de la base de données (SQLAlchemy)
 db.init_app(app)

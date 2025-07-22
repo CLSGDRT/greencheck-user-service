@@ -1,28 +1,28 @@
 import pytest
+import os
 from app.api.app import app
 from app.models.db import db
 from app.models.user import User
 from flask_jwt_extended import create_access_token
 
-# === FIXTURES ===
+# Forcer l'environnement de test AVANT l'import
+os.environ['FLASK_ENV'] = 'testing'
 
 @pytest.fixture
 def client():
-    app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+    # Plus besoin de reconfigurer, c'est déjà fait dans config.py
     with app.app_context():
         db.create_all()
-        # Création d’un admin et d’un user de test
+        
+        # Création d'un admin et d'un user de test
         admin = User(email='admin@test.com', role='admin', quota=100)
         user = User(email='user@test.com', role='user', quota=50)
         db.session.add_all([admin, user])
         db.session.commit()
-
+        
         with app.test_client() as client:
             yield client
-
+            
         db.session.remove()
         db.drop_all()
 
